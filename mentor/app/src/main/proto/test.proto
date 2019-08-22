@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.mentor.proto";
+option java_outer_classname = "GrpcService";
+
+package GrpcService;
+
+// The greeting service definition.
+service RemoteCall {
+  // Sends
+  rpc GetPicture (GetPictureRequest) returns (GetPictureResponse) {}
+  rpc PostPicture (stream PostPictureRequest) returns (PostPictureResponse) {}
+}
+
+// The request message containing the user's name.
+message GetPictureRequest {
+  uint32 from = 1;
+}
+
+// The response message containing the greetings
+message GetPictureResponse {
+  uint32 from = 1;
+  uint32 status = 2;
+  string name = 3;
+  bytes body = 4;
+}
+
+message PostPictureRequest {
+    uint32 from = 1;
+    double longitude = 2;
+    double latitude = 3;
+    bytes body = 4;
+}
+
+message PostPictureResponse {
+    uint32 from = 1;
+    uint32 status = 2;
+}
