@@ -12,6 +12,9 @@
 ##  点击蓝牙按钮即可开始搜索配对连接指定蓝牙目标设备
 ##  显示ready即可使用
 
+##  人脸识别
+##  在人脸认证按钮上方输入设备ip与port点击按钮即可使用
+
 
 #   android porject
 ##  install android studio
