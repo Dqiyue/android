@@ -6,6 +6,9 @@ import com.example.mentor.proto.GetPictureRequest;
 import com.example.mentor.proto.GetPictureResponse;
 import com.example.mentor.proto.PostPictureRequest;
 import com.example.mentor.proto.PostPictureResponse;
+import com.example.mentor.proto.VerifyRequest;
+import com.example.mentor.proto.VerifyResponse;
+import com.example.mentor.proto.PersonCandidate;
 import com.google.protobuf.ByteString;
 
 import java.io.BufferedWriter;
@@ -26,6 +29,7 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 
 import java.lang.Byte;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -44,6 +48,8 @@ public class ClientChannel {
     private final RemoteCallGrpc.RemoteCallStub asyncStub;
     private static  int GRPC_MAX_DATA_LEN = 64*1024;
 
+    public boolean isReady() {return (channel != null && channel.isTerminated() == false && channel.isShutdown() == false);}
+
     public ClientChannel(String host, int port) {
         channel = ManagedChannelBuilder.forAddress(host,port).usePlaintext(true).build();
         if (channel == null) {
@@ -54,6 +60,40 @@ public class ClientChannel {
             blockingStub = RemoteCallGrpc.newBlockingStub(channel);
             asyncStub = RemoteCallGrpc.newStub(channel);
         }
+    }
+
+    public String RemoteFaceDectPass(Map<String,Double> items) {
+        if (items == null || items.isEmpty()) {
+            return "empty items!";
+        }
+        //String result = "ok";
+        VerifyResponse resp = null;
+        try {
+            if (blockingStub == null) {
+                return "can not build connection to mentor device";
+            }
+            VerifyRequest.Builder rb = VerifyRequest.newBuilder();
+            for (Map.Entry<String, Double> entry : items.entrySet()) {
+                PersonCandidate m = PersonCandidate.newBuilder().setId(entry.getKey()).setConfidence(entry.getValue()).build();
+                rb.addPcs(m);
+                //req.
+            }
+            VerifyRequest req = rb.build();
+            if (req == null) {
+                return "build verify request failed!";
+            }
+            //blockingStub.
+            resp = blockingStub.verify(req);
+            if (resp == null || resp.getStatus() != 0) {
+                return "verify request to mentor do not pass!";
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("grpc service error : " + e.getMessage());
+            //result = "verify request to mentor failed" + e.getMessage();
+            return ("verify request to mentor failed" + e.getMessage());
+        }
+        return "ok";
     }
 
     public byte[] RemoteGetPicture(int from) {

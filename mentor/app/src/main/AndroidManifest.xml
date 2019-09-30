@@ -9,10 +9,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 授予该程序定位的权限 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 授予该程序定位的权限 -->
-
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
 
     <application
         android:allowBackup="true"
@@ -21,12 +19,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.mentor.btActivity" />
-        <activity android:name="com.example.mentor.GrpcActivity" />
-        <activity android:name="com.example.mentor.MainActivity">
+        <activity android:name=".FaceDectActivity"></activity>
+        <activity android:name=".btActivity" />
+        <activity android:name=".GrpcActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="com.example.mentor.MainActivity"/>
+                <action android:name="com.example.mentor.MainActivity" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

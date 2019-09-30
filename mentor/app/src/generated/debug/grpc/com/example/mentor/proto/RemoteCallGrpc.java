@@ -92,6 +92,37 @@ public final class RemoteCallGrpc {
      return getPostPictureMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.example.mentor.proto.VerifyRequest,
+      com.example.mentor.proto.VerifyResponse> getVerifyMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "Verify",
+      requestType = com.example.mentor.proto.VerifyRequest.class,
+      responseType = com.example.mentor.proto.VerifyResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.example.mentor.proto.VerifyRequest,
+      com.example.mentor.proto.VerifyResponse> getVerifyMethod() {
+    io.grpc.MethodDescriptor<com.example.mentor.proto.VerifyRequest, com.example.mentor.proto.VerifyResponse> getVerifyMethod;
+    if ((getVerifyMethod = RemoteCallGrpc.getVerifyMethod) == null) {
+      synchronized (RemoteCallGrpc.class) {
+        if ((getVerifyMethod = RemoteCallGrpc.getVerifyMethod) == null) {
+          RemoteCallGrpc.getVerifyMethod = getVerifyMethod = 
+              io.grpc.MethodDescriptor.<com.example.mentor.proto.VerifyRequest, com.example.mentor.proto.VerifyResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "GrpcService.RemoteCall", "Verify"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.lite.ProtoLiteUtils.marshaller(
+                  com.example.mentor.proto.VerifyRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.lite.ProtoLiteUtils.marshaller(
+                  com.example.mentor.proto.VerifyResponse.getDefaultInstance()))
+                  .build();
+          }
+        }
+     }
+     return getVerifyMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -139,6 +170,13 @@ public final class RemoteCallGrpc {
       return asyncUnimplementedStreamingCall(getPostPictureMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void verify(com.example.mentor.proto.VerifyRequest request,
+        io.grpc.stub.StreamObserver<com.example.mentor.proto.VerifyResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getVerifyMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -155,6 +193,13 @@ public final class RemoteCallGrpc {
                 com.example.mentor.proto.PostPictureRequest,
                 com.example.mentor.proto.PostPictureResponse>(
                   this, METHODID_POST_PICTURE)))
+          .addMethod(
+            getVerifyMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.example.mentor.proto.VerifyRequest,
+                com.example.mentor.proto.VerifyResponse>(
+                  this, METHODID_VERIFY)))
           .build();
     }
   }
@@ -198,6 +243,14 @@ public final class RemoteCallGrpc {
       return asyncClientStreamingCall(
           getChannel().newCall(getPostPictureMethod(), getCallOptions()), responseObserver);
     }
+
+    /**
+     */
+    public void verify(com.example.mentor.proto.VerifyRequest request,
+        io.grpc.stub.StreamObserver<com.example.mentor.proto.VerifyResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getVerifyMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -229,6 +282,13 @@ public final class RemoteCallGrpc {
     public com.example.mentor.proto.GetPictureResponse getPicture(com.example.mentor.proto.GetPictureRequest request) {
       return blockingUnaryCall(
           getChannel(), getGetPictureMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.example.mentor.proto.VerifyResponse verify(com.example.mentor.proto.VerifyRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getVerifyMethod(), getCallOptions(), request);
     }
   }
 
@@ -263,10 +323,19 @@ public final class RemoteCallGrpc {
       return futureUnaryCall(
           getChannel().newCall(getGetPictureMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.example.mentor.proto.VerifyResponse> verify(
+        com.example.mentor.proto.VerifyRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getVerifyMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_PICTURE = 0;
-  private static final int METHODID_POST_PICTURE = 1;
+  private static final int METHODID_VERIFY = 1;
+  private static final int METHODID_POST_PICTURE = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -288,6 +357,10 @@ public final class RemoteCallGrpc {
         case METHODID_GET_PICTURE:
           serviceImpl.getPicture((com.example.mentor.proto.GetPictureRequest) request,
               (io.grpc.stub.StreamObserver<com.example.mentor.proto.GetPictureResponse>) responseObserver);
+          break;
+        case METHODID_VERIFY:
+          serviceImpl.verify((com.example.mentor.proto.VerifyRequest) request,
+              (io.grpc.stub.StreamObserver<com.example.mentor.proto.VerifyResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -319,6 +392,7 @@ public final class RemoteCallGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .addMethod(getGetPictureMethod())
               .addMethod(getPostPictureMethod())
+              .addMethod(getVerifyMethod())
               .build();
         }
       }

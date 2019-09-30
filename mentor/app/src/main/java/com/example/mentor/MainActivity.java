@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText btUuidEdit;
     private EditText btEdit;
     private Button btButton;
+    //private Button fdButton;
     //private Handler handler;
     private Bitmap bmForRcvImage;
 
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
         btUuidEdit = (EditText) findViewById(R.id.bluetooth_uuid);
         btEdit = (EditText) findViewById((R.id.bluetooth_name));
         btButton = (Button) findViewById((R.id.bluetooth));
+        //fdButton = (Button) findViewById(R.id.face_dect_bt);
+
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter.isEnabled() == false) {
             mBluetoothAdapter.enable(); //开启
@@ -184,6 +187,17 @@ public class MainActivity extends AppCompatActivity {
 //                AsyncTask.THREAD_POOL_EXECUTOR,
 //                hostEdit.getText().toString(),
 //                portEdit.getText().toString());
+    }
+
+    public void faceDectCall(View view) {
+        if (TextUtils.isEmpty(hostServ.getText().toString())|| !TextUtils.isDigitsOnly(portServ.getText().toString()) ) {
+            Toast.makeText(this,"Invaild port!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(this,FaceDectActivity.class);
+        intent.putExtra("host",hostServ.getText().toString());
+        intent.putExtra("port",portServ.getText().toString());
+        startActivity(intent);
     }
 
     public void ctrlServer(View view) {

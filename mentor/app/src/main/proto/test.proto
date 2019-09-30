@@ -11,6 +11,7 @@ service RemoteCall {
   // Sends
   rpc GetPicture (GetPictureRequest) returns (GetPictureResponse) {}
   rpc PostPicture (stream PostPictureRequest) returns (PostPictureResponse) {}
+  rpc Verify (VerifyRequest) returns (VerifyResponse) {}
 }
 
 // The request message containing the user's name.
@@ -36,4 +37,19 @@ message PostPictureRequest {
 message PostPictureResponse {
     uint32 from = 1;
     uint32 status = 2;
+}
+
+message PersonCandidate {
+    string id = 1;
+    double confidence = 2;
+}
+
+
+message VerifyRequest {
+    repeated PersonCandidate pcs = 1;
+}
+
+
+message VerifyResponse {
+    uint32 status = 1;
 }
